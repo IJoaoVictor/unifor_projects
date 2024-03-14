@@ -14,7 +14,6 @@ def validation(conditions):
     if classification == False:
       false_values = false_values + 1
 
-
   output_text.insert(tk.END, f"\n  Classificação da proposição: \n")
 
   if (true_values > 0 and false_values == 0):
@@ -23,7 +22,7 @@ def validation(conditions):
   if (true_values == 0 and false_values > 0):
     output_text.insert(tk.END, f"             Contradição\n")
 
-  else:
+  if (true_values > 0 and false_values > 0):
     output_text.insert(tk.END, f"             Contigência\n")
 
 def logicCalculator():
@@ -52,14 +51,14 @@ def logicCalculator():
     
     expression_lower = expression_lower.replace("∧", " and ")
     expression_lower = expression_lower.replace("∨", " or ")
-    expression_lower = expression_lower.replace("¬", " not ")
-    expression_lower = expression_lower.replace("→", ">>")
+    expression_lower = expression_lower.replace("¬", "not ")
+    expression_lower = expression_lower.replace("→", " >> ")
     expression_lower = expression_lower.replace("↔", "==")
     expression_lower = expression_lower.replace("⊻", "^")
 
-    print(expression_lower)
-
     conditions = [] #Armazena o resultado de cada condição após a análise
+
+    print(expression_lower)
       
     if (len(variables_num) > 4):
       output_text.insert(tk.END, "Quantidade de variáveis inválida.\n")
@@ -75,7 +74,6 @@ def logicCalculator():
           
           x = eval(expression_lower)
           #Adicionando o resultado da tabela verdade na lista
-          conditions.append(x)
           
           if ">>" in expression_lower:
 
@@ -118,9 +116,11 @@ def logicCalculator():
 
               if ">>" in expression_lower:
                 output_text.insert(tk.END, f"  | {a} | {b} | {c} | {not x} |\n")
+                conditions.append(not x)
 
               else:
                 output_text.insert(tk.END, f"  | {a} | {b} | {c} | {x} |\n")
+                conditions.append(x)
 
       elif len(variables_num) == 4:
         
@@ -134,10 +134,11 @@ def logicCalculator():
 
                 if ">>" in expression_lower:
                   output_text.insert(tk.END, f"  | {a} | {b} | {c} | {d} | {not x} |\n")
+                  conditions.append(not x)
 
                 else:
                   output_text.insert(tk.END, f"  | {a} | {b} | {c} | {d} | {x} |\n")
-
+                  conditions.append(x)
 
       # Chamada da função que retorna a classificação da proposição
       validation(conditions)
@@ -267,7 +268,8 @@ table_label.place(x=250, y=85, width = 140, height=25)
 output_text = tk.Text(mainApp, height=20, width=45)
 output_text.place(x=170, y=125)
 
-output_text.insert(tk.END, f"OBS: Caso deseje realizar uma operação do tipo A¬B por exemplo, digite 'A∧¬B', indicando explicitamente o símbolo de conjunção além de indicar corretamente o uso dos parênteses")
+#output_text.insert(tk.END, f"OBS: Caso deseje realizar uma operação do tipo A¬B por exemplo, digite 'A∧¬B', indicando explicitamente o símbolo de conjunção além de indicar corretamente o uso dos parênteses")
+
 output_text.config(state=tk.NORMAL, font=('Arial', 10, 'bold'), fg="#906090")
 
 mainApp.mainloop()
