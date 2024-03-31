@@ -31,12 +31,11 @@ class Gogh extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-
     final AsyncValue<List<Map<String, dynamic>>> coordinatesAsync = ref.watch(coordinatesProvider);
-
     final TextEditingController informationController = TextEditingController(); // onde o usuário digita a mensagem
 
     return MaterialApp(
+      
       home: Scaffold(
         appBar: AppBar(
           title: const Text("O Céu de Van Gogh"),
@@ -46,6 +45,7 @@ class Gogh extends ConsumerWidget {
             icon: const Icon(Icons.arrow_back),
           ),
         ),
+
         body: coordinatesAsync.when(
           data: (coordinates) {
             return Stack(
@@ -58,9 +58,10 @@ class Gogh extends ConsumerWidget {
                     ),
                   ),
                 ),
+
                 // O detector de gestos capta as coordenadas do clique e utiliza pra posicionar o botão
                 GestureDetector(
-                  onTapDown: (TapDownDetails details) {
+                  onDoubleTapDown: (TapDownDetails details) {
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
@@ -68,6 +69,7 @@ class Gogh extends ConsumerWidget {
                           controller: informationController,
                           decoration: const InputDecoration(labelText: "Escreva a observação: "),
                         ),
+                
                         actions: [
                           ElevatedButton(
                             onPressed: () async {
@@ -75,19 +77,23 @@ class Gogh extends ConsumerWidget {
                                 'x': details.globalPosition.dx, // Coordenada X
                                 'y': details.globalPosition.dy, // Coordenada Y
                                 'information': informationController.text, // Conteúdo da mensagem
+                                
                               });
                               Navigator.pop(context);
-                            },
-                            child: const Text("Ok"),
+                              ref.refresh(coordinatesProvider); // Atualiza a página
+                             },
+                            child: const Text("OK"),
                           ),
                         ],
-                      ),
+                      ),                      
                     );
                   },
                 ),
+                
 
                 // Criação dos botões
                 // Cada coordenada criada é adicionada numa lista, então é criado automaticamente um botão pra cada elemento dessa lista
+
                 ...coordinates.asMap().entries.map((entry) {
                   final index = entry.key;
                   final coordinate = entry.value;
@@ -109,10 +115,10 @@ class Gogh extends ConsumerWidget {
 
                         //Até o momento nao serve pra nada, mas ideia era que recarregasse a página pra ver as mudanças
                         //Basicamente chamando a página de novo
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Gogh()));
 
-                     
+                        ref.refresh(coordinatesProvider); // Atualiza a página    
                       },
+                      
                       child: ElevatedButton(
                         onPressed: () {
                           showDialog(

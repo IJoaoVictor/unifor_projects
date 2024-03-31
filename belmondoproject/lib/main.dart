@@ -4,9 +4,10 @@ import 'package:belmondoproject/PaintingDetails4.dart';
 import 'package:belmondoproject/firebase_options.dart';
 import 'package:belmondoproject/velho.dart';
 import 'package:belmondoproject/gogh.dart';
+import 'package:belmondoproject/viajante.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:belmondoproject/PaintingDetails.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -29,7 +30,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
+      
       home: Scaffold(
         appBar: AppBar(
           title: Text("Acervo da Unifor"),
@@ -43,10 +44,10 @@ class HomePage extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       backgroundColor: Colors.grey,
-                      backgroundImage: AssetImage("images/sorvete.gif"),
+                      backgroundImage: AssetImage("lib/images/sorvete.gif"),
                       radius: 50,
                     ),
-                    Text("Tá aqui só de enfeite"),
+                    Text("Bill Gates"),
                   ],
                 )),
             ListTile(
@@ -85,7 +86,7 @@ class HomePage extends StatelessWidget {
                 // Até o momento, tem que ter uma página pra cada foto
 
                 if (index == 0) 
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const PaintingDetails()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const Traveller()));
               
                 if (index == 1) 
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const PaintingDetails2()));

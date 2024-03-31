@@ -1,4 +1,4 @@
-import 'package:belmondoproject/velho_video.dart';
+import 'package:belmondoproject/viajante_video.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 // 70% GPT e 31% só deus sabe
 
 final coordinatesProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
-  final querySnapshot = await FirebaseFirestore.instance.collection('coordinates1').get();
+  final querySnapshot = await FirebaseFirestore.instance.collection('coordinates2').get();
   return querySnapshot.docs.map((doc) => doc.data()).toList();
 });
 
@@ -26,8 +26,8 @@ class CoordinatesNotifier extends StateNotifier<List<Map<String, dynamic>>> {
   }
 }
 
-class velho extends ConsumerWidget {
-  const velho({Key? key}) : super(key: key);
+class Traveller extends ConsumerWidget {
+  const Traveller({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -39,7 +39,7 @@ class velho extends ConsumerWidget {
       
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Velho Trabalhador"),
+          title: const Text("O Viajante"),
           centerTitle: true,
           leading: IconButton(
             onPressed: () => Navigator.pop(context),
@@ -47,17 +47,18 @@ class velho extends ConsumerWidget {
           ),
         ),
 
+
         floatingActionButton: FloatingActionButton // Botão de adicionar
         
           (
             onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const velhoVideo()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const viajanteVideo()));
 
           }, 
           
           child: Icon(Icons.play_arrow)
         ),
-        
+
         body: coordinatesAsync.when(
           data: (coordinates) {
             return Stack(
@@ -65,7 +66,7 @@ class velho extends ConsumerWidget {
                 Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: const AssetImage("lib/images/image5.jpg"),
+                      image: const AssetImage("lib/images/image1.jpg"),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -73,7 +74,7 @@ class velho extends ConsumerWidget {
 
                 // O detector de gestos capta as coordenadas do clique e utiliza pra posicionar o botão
                 GestureDetector(
-                  onDoubleTapDown: (TapDownDetails details) {
+                  onTapDown: (TapDownDetails details) {
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
@@ -85,7 +86,7 @@ class velho extends ConsumerWidget {
                         actions: [
                           ElevatedButton(
                             onPressed: () async {
-                              await FirebaseFirestore.instance.collection('coordinates1').add({ // Aqui é feito o envio para o banco de dados
+                              await FirebaseFirestore.instance.collection('coordinates2').add({ // Aqui é feito o envio para o banco de dados
                                 'x': details.globalPosition.dx, // Coordenada X
                                 'y': details.globalPosition.dy, // Coordenada Y
                                 'information': informationController.text, // Conteúdo da mensagem
@@ -119,11 +120,11 @@ class velho extends ConsumerWidget {
                         // Aqui o diabo chorou
                         // Só da pra ver que apagou se abrir de novo, pelo menos no web, tem q consertar isso
 
-                        var collection = FirebaseFirestore.instance.collection('coordinates1');
+                        var collection = FirebaseFirestore.instance.collection('coordinates2');
                         var querySnapshots = await collection.get();
                         var documentID = querySnapshots.docs.elementAt(index).id;
                         
-                        await FirebaseFirestore.instance.collection('coordinates1').doc(documentID).delete();
+                        await FirebaseFirestore.instance.collection('coordinates2').doc(documentID).delete();
 
                         //Até o momento nao serve pra nada, mas ideia era que recarregasse a página pra ver as mudanças
                         //Basicamente chamando a página de novo
