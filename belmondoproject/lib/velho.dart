@@ -110,8 +110,8 @@ class velho extends ConsumerWidget {
                   final index = entry.key;
                   final coordinate = entry.value;
                   return Positioned(
-                    left: coordinate['x'],
-                    top: coordinate['y'],
+                    left: coordinate['x'] -20,
+                    top: coordinate['y'] -75,
                     child: GestureDetector(
                       // Se segurar em cima do botão, ele é apagado
                       onLongPress: () async {

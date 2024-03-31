@@ -74,7 +74,7 @@ class Traveller extends ConsumerWidget {
 
                 // O detector de gestos capta as coordenadas do clique e utiliza pra posicionar o botão
                 GestureDetector(
-                  onTapDown: (TapDownDetails details) {
+                  onDoubleTapDown: (TapDownDetails details) {
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
@@ -111,8 +111,12 @@ class Traveller extends ConsumerWidget {
                   final index = entry.key;
                   final coordinate = entry.value;
                   return Positioned(
-                    left: coordinate['x'],
-                    top: coordinate['y'],
+                    
+                    // Aparentemente a posição coletada difere levemente da final, fazendo essas alterações fica mais próximo do real
+
+                    left: coordinate['x'] -20, 
+                    top: coordinate['y'] - 75,
+
                     child: GestureDetector(
                       // Se segurar em cima do botão, ele é apagado
                       onLongPress: () async {

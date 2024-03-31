@@ -44,7 +44,7 @@ class HomePage extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       backgroundColor: Colors.grey,
-                      backgroundImage: AssetImage("lib/images/sorvete.gif"),
+                      backgroundImage: AssetImage("lib/images/profile.jpeg"),
                       radius: 50,
                     ),
                     Text("Bill Gates"),
