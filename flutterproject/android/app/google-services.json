@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1066330038152",
+    "firebase_url": "https://databaseartproject-default-rtdb.firebaseio.com",
+    "project_id": "databaseartproject",
+    "storage_bucket": "databaseartproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066330038152:android:90011e662c81f6db1b643d",
+        "android_client_info": {
+          "package_name": "com.example.belmondoproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnVXaN0IzcOdERKK1vOk6FVWmwwTDBmKM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
