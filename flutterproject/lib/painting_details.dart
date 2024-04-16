@@ -4,6 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:flutter_tts/flutter_tts.dart';
+
+FlutterTts flutterTts = FlutterTts();
+
+  void textToSpeech(String text) async {
+    await flutterTts.setLanguage("pt-BR");
+    await flutterTts.setVolume(0.5);
+    await flutterTts.setSpeechRate(0.5);
+    await flutterTts.setPitch(1);
+    await flutterTts.speak(text);
+  }
+
 final coordinatesProvider = FutureProvider.family<List<Map<String, dynamic>>, String>((ref, imageName) async {
   final querySnapshot = await FirebaseFirestore.instance.collection('coordinates_$imageName').get();
   return querySnapshot.docs.map((doc) => doc.data()).toList();
@@ -194,10 +206,18 @@ class paintingDetails extends ConsumerWidget {
                             builder: (context) => AlertDialog(
                               content: Text(coordinate['information']),
                               actions: [
+
+                                IconButton(
+                                onPressed: () => textToSpeech((coordinate['information'])), 
+                                icon: Icon(Icons.headset)),
+
                                 ElevatedButton(
                                   onPressed: () => Navigator.pop(context),
                                   child: const Text("OK"),
                                 ),
+                                
+                                
+                                
                               ],
                             ),
                           );

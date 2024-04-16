@@ -27,10 +27,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.macOS:
         return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -44,38 +41,54 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDjCAzeG1cyHIqAtgzDrL7IIw3eRBtOOQI',
-    appId: '1:364659902498:web:9a307e2981c708ae1be27b',
-    messagingSenderId: '364659902498',
-    projectId: 'notesflutterfirebase',
-    authDomain: 'notesflutterfirebase.firebaseapp.com',
-    storageBucket: 'notesflutterfirebase.appspot.com',
-    measurementId: 'G-46HKQYKNMY',
+    apiKey: 'AIzaSyB23tG3MtvvVKGf3EUmvPlgDjNoB1V0njo',
+    appId: '1:1066330038152:web:63873f6d9daa01271b643d',
+    messagingSenderId: '1066330038152',
+    projectId: 'databaseartproject',
+    authDomain: 'databaseartproject.firebaseapp.com',
+    databaseURL: 'https://databaseartproject-default-rtdb.firebaseio.com',
+    storageBucket: 'databaseartproject.appspot.com',
+    measurementId: 'G-8EFJHCMS8D',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyApDyPKEyy81-cXWO4RWcgRW6PHBI8lYc8',
-    appId: '1:364659902498:android:8c8c3b8471f090481be27b',
-    messagingSenderId: '364659902498',
-    projectId: 'notesflutterfirebase',
-    storageBucket: 'notesflutterfirebase.appspot.com',
+    apiKey: 'AIzaSyDnVXaN0IzcOdERKK1vOk6FVWmwwTDBmKM',
+    appId: '1:1066330038152:android:90011e662c81f6db1b643d',
+    messagingSenderId: '1066330038152',
+    projectId: 'databaseartproject',
+    databaseURL: 'https://databaseartproject-default-rtdb.firebaseio.com',
+    storageBucket: 'databaseartproject.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCyz9lh5eT3xDTsj1NZUe0fx8aNqT7Rdlc',
-    appId: '1:364659902498:ios:d2b5d2d42d6db84b1be27b',
-    messagingSenderId: '364659902498',
-    projectId: 'notesflutterfirebase',
-    storageBucket: 'notesflutterfirebase.appspot.com',
+    apiKey: 'AIzaSyBYEJAnZhCUIOGBbvizcjnegS1oe1OGH6Y',
+    appId: '1:1066330038152:ios:a5ee9fdd0d0d5b571b643d',
+    messagingSenderId: '1066330038152',
+    projectId: 'databaseartproject',
+    databaseURL: 'https://databaseartproject-default-rtdb.firebaseio.com',
+    storageBucket: 'databaseartproject.appspot.com',
     iosBundleId: 'com.example.belmondoproject',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCyz9lh5eT3xDTsj1NZUe0fx8aNqT7Rdlc',
-    appId: '1:364659902498:ios:d173fbc4c120a1061be27b',
-    messagingSenderId: '364659902498',
-    projectId: 'notesflutterfirebase',
-    storageBucket: 'notesflutterfirebase.appspot.com',
-    iosBundleId: 'com.example.belmondoproject.RunnerTests',
+    apiKey: 'AIzaSyBYEJAnZhCUIOGBbvizcjnegS1oe1OGH6Y',
+    appId: '1:1066330038152:ios:a5ee9fdd0d0d5b571b643d',
+    messagingSenderId: '1066330038152',
+    projectId: 'databaseartproject',
+    databaseURL: 'https://databaseartproject-default-rtdb.firebaseio.com',
+    storageBucket: 'databaseartproject.appspot.com',
+    iosBundleId: 'com.example.belmondoproject',
   );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyB23tG3MtvvVKGf3EUmvPlgDjNoB1V0njo',
+    appId: '1:1066330038152:web:00a6dd6865f206721b643d',
+    messagingSenderId: '1066330038152',
+    projectId: 'databaseartproject',
+    authDomain: 'databaseartproject.firebaseapp.com',
+    databaseURL: 'https://databaseartproject-default-rtdb.firebaseio.com',
+    storageBucket: 'databaseartproject.appspot.com',
+    measurementId: 'G-FL9Y8KP09L',
+  );
+
 }
