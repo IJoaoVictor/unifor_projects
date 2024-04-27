@@ -114,11 +114,45 @@ def isReflexive(matrix):
   return True
   
 # - Verificar se a matriz é simétrica
+
+def isSymmetric(matrix):
+
+  # Verifica se a matriz é igual à sua transposta
+  for i in range(len(matrix)):
+      for j in range(len(matrix[0])):
+          if matrix[i][j] != matrix[j][i]:
+            print("\nA matriz não é simétrica")
+            return False
+
+  print("\nA matriz é simétrica")
+  return True
+
 # - Verificar se a matriz é assimétrica
+    
+def isAssymmetric(matrix):
+
+  # Verificar se a diagonal principal é toda 0
+  
+  for i in range(len(matrix)):
+      if matrix[i][i] != 0:
+        print('A matriz não é assimétrica')
+        return False
+
+  # Verificar se a matriz satisfaz a condição matrix[i][j] == 1 -> matrix[j][i] == 0
+  
+  for i in range(len(matrix)):
+      for j in range(len(matrix[0])):
+          if matrix[i][j] == 1 and matrix[j][i] != 0:
+            print('A matriz não é assimétrica')
+            return False
+
+  print('A matriz é assimétrica')
+  return True
+             
 # - Verificar se a matriz é antissimétrica 
 # - Verificar se a matriz é transitiva
-# - Ientificar se a Relação é de Ordem, se é de Equivalência e, caso existam, quem são os elementos maximais e minimais, e o maior e menor elemento da relação.
-
+# - Identificar se a Relação é de Ordem, se é de Equivalência e, caso existam, quem são os elementos maximais e minimais, e o maior e menor elemento da relação.
+# - Identificar e completar fecho
 adjacencyMatrix = construir_matriz_adjacencia(estacoes, linhas_por_estacao)
 
 busMatrix = [
@@ -128,6 +162,30 @@ busMatrix = [
   [0,1,1,0,0,1],
   [0,0,0,0,0,1],
   [1,0,0,1,1,0]
+]
+
+reflexiva = [
+  [1,1,0],
+  [1,1,1],
+  [0,0,1]
+]
+
+simetrica = [
+  [1,1,0],
+  [1,1,1],
+  [0,1,0]
+]
+
+assimetrica = [
+  [0,1,0],
+  [0,0,0],
+  [0,1,0]
+]
+
+antisimetrica = [
+  [1,1,0],
+  [0,1,0],
+  [0,1,0]
 ]
 
 # Imprimir a matriz de adjacência
@@ -141,4 +199,7 @@ print("\nMatrix Transposta\n")
 transposeMatrix = transposeMatrix(adjacencyMatrix);
 printMatrix(transposeMatrix)
 
-isReflexive(adjacencyMatrix)
+
+isReflexive(reflexiva)
+isSymmetric(simetrica)
+isAssymmetric(assimetrica)
