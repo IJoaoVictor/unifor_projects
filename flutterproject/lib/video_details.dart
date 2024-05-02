@@ -1,6 +1,11 @@
+// ignore_for_file: deprecated_member_use
+
+import 'package:belmondoproject/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 // Fazer a mesma coisa do send_video pra cá
 
@@ -93,6 +98,8 @@ class _videoDetailsState extends State<videoDetails> {
 
 
     CollectionReference _reference = FirebaseFirestore.instance.collection('videos');
+
+    Reference storageReferance = FirebaseStorage.instance.ref();
     
 
     return Scaffold(
@@ -104,13 +111,18 @@ class _videoDetailsState extends State<videoDetails> {
             onPressed: () => Navigator.pop(context),
             icon: const Icon(Icons.arrow_back),
           ),
+          
           actions: [
+            if (isUserAuthenticated())
+            
             IconButton(onPressed: () async {
             //Delete the item
 
             await _reference.where('name', isEqualTo: widget.videoName).get().then((querySnapshot) {
-              querySnapshot.docs.forEach((doc) {
-              doc.reference.delete();
+              querySnapshot.docs.forEach((doc) async {
+              final desertRef = storageReferance.child("videos/${widget.videoName}.mp4");
+              await desertRef.delete();
+              await doc.reference.delete();
               });
             });
             

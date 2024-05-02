@@ -1,10 +1,13 @@
+import 'package:belmondoproject/home_page.dart';
 import 'package:belmondoproject/send_video.dart';
 import 'package:belmondoproject/video_details.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter_tts/flutter_tts.dart';
+
 
 FlutterTts flutterTts = FlutterTts();
 
@@ -46,6 +49,7 @@ class CoordinatesNotifier extends StateNotifier<List<Map<String, dynamic>>> {
 }
 
 class paintingDetails extends ConsumerWidget {
+  
   paintingDetails(this.docID, this.imageURL, this.imageName, {Key? key}) : super(key: key);
 
   final String imageURL;
@@ -58,20 +62,22 @@ class paintingDetails extends ConsumerWidget {
     final AsyncValue<List<Map<String, dynamic>>> coordinatesAsync = ref.watch(coordinatesProvider(imageName));
     final TextEditingController informationController = TextEditingController();
 
-    CollectionReference _referenceVideos =
-      FirebaseFirestore.instance.collection('videos');
+    CollectionReference _referenceVideos = FirebaseFirestore.instance.collection('videos');
+
+    Reference storageReferance = FirebaseStorage.instance.ref();
 
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           actions: [
           
-
+          if (isUserAuthenticated())
+          
           IconButton(onPressed: () async {
-             Navigator.push(context, MaterialPageRoute(builder: (context) => sendVideo(videoName: imageName,)));           
+             Navigator.push(context, MaterialPageRoute(builder: (context) => SendVideo(videoName: imageName,)));           
           }, icon: Icon(Icons.add_a_photo)),
 
-
+          if (isUserAuthenticated())
           IconButton(onPressed: () async {
             //Delete the item
             FirebaseFirestore.instance.collection('images').doc(docID).delete();
@@ -85,8 +91,12 @@ class paintingDetails extends ConsumerWidget {
               await doc.reference.delete();}
             
             await _referenceVideos.where('name', isEqualTo: imageName).get().then((querySnapshot) {
-              querySnapshot.docs.forEach((doc) {
-              doc.reference.delete();
+              querySnapshot.docs.forEach((doc) async {
+              final desertRefImage = storageReferance.child("images/${imageName}.jpg");
+              final desertRefVideo = storageReferance.child("videos/${imageName}.mp4");
+              await desertRefVideo.delete();
+              await desertRefImage.delete();
+              await doc.reference.delete();
               });
             });
 
@@ -125,6 +135,7 @@ class paintingDetails extends ConsumerWidget {
                     ),
                   ),
                 ),
+                if (isUserAuthenticated())
                 GestureDetector(
                   onDoubleTapDown: (TapDownDetails details) {
                     showDialog(

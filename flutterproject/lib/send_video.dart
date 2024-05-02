@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -7,24 +5,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-class sendVideo extends StatefulWidget {
-  
-  var videoName;
+class SendVideo extends StatefulWidget {
+  final String videoName;
 
-  sendVideo({Key? key, required this.videoName}) : super(key: key);
+  const SendVideo({Key? key, required this.videoName}) : super(key: key);
 
   @override
-  State<sendVideo> createState() => _sendVideoState();
+  State<SendVideo> createState() => _SendVideoState();
 }
 
-class _sendVideoState extends State<sendVideo> {
+class _SendVideoState extends State<SendVideo> {
   TextEditingController _controllerName = TextEditingController();
   TextEditingController _controllerDescription = TextEditingController();
   GlobalKey<FormState> key = GlobalKey();
 
   CollectionReference _reference = FirebaseFirestore.instance.collection('videos');
 
-  String videoUrl = '';  
+  String videoUrl = '';
 
   bool videoSelected = false;
 
@@ -32,7 +29,7 @@ class _sendVideoState extends State<sendVideo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Vídeo de " + widget.videoName),
+        title: Text("Vídeo de ${widget.videoName}"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -42,27 +39,29 @@ class _sendVideoState extends State<sendVideo> {
             children: [
               TextFormField(
                 controller: _controllerName,
-                decoration:
-                    InputDecoration(hintText: 'Nome do vídeo '),
-                validator: (String? value) {
+                decoration: InputDecoration(
+                  label: Text("Nome"),
+                  hintText: 'Insira o nome do vídeo'),
+                validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Insira um nome para o vídeo';
+                    return 'Nome obrigatório';
                   }
                   return null;
                 },
               ),
               TextFormField(
                 controller: _controllerDescription,
-                decoration:
-                    InputDecoration(hintText: 'Descrição do vídeo '),
-                validator: (String? value) {
+                decoration: InputDecoration(
+                  label: Text("Descrição"),
+                  hintText: 'Insira a descrição do vídeo'),
+                validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Insira uma descrição para o vídeo';
+                    return 'Descrição obrigatória';
                   }
                   return null;
                 },
               ),
-              Text(""),
+              SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () async {
                   ImagePicker imagePicker = ImagePicker();
@@ -70,50 +69,59 @@ class _sendVideoState extends State<sendVideo> {
                       await imagePicker.pickVideo(source: ImageSource.gallery);
                   print('${file?.path}');
 
-                  
-                  Reference referenceRoot = FirebaseStorage.instance.ref();
-                  Reference referenceDirVideos =
-                      referenceRoot.child('videos');
+                  if (file != null) { // Verifica se um vídeo foi selecionado
+                    try {
+                      // String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
 
-                  Reference referenceVideoToUpload =
-                      referenceDirVideos.child(widget.videoName+".mp4");
+                      Reference referenceRoot =
+                          FirebaseStorage.instance.ref();
+                      Reference referenceDirVideos =
+                          referenceRoot.child('videos');
 
-                  try {
-                    await referenceVideoToUpload.putFile(File(file!.path));
-                    videoUrl = await referenceVideoToUpload.getDownloadURL();
+                      Reference referenceVideoToUpload =
+                          referenceDirVideos.child(widget.videoName + ".mp4");
 
-                    if (videoUrl.isNotEmpty) {
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(SnackBar(
+                      await referenceVideoToUpload.putFile(File(file.path));
+                      videoUrl =
+                          await referenceVideoToUpload.getDownloadURL();
+
+                      if (videoUrl.isNotEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
                             backgroundColor: Colors.green,
-                            content: Text('Vídeo carregado com sucesso')));
-                      setState(() {
-                        videoSelected = true;
-                      });
+                            content: Text('Vídeo carregado com sucesso'),
+                          ),
+                        );
+                        setState(() {
+                          videoSelected = true;
+                        });
+                      }
+                    } catch (error) {
+                      // Trate o erro adequadamente
+                      print(error);
                     }
-                  } catch (error) {
-                    // Trate o erro adequadamente
+                  } else {
+                    // Exibir mensagem de erro aqui se necessário
                   }
                 },
                 child: Text("Adicionar arquivo"),
               ),
-              
-              Text(""),
-              
+              SizedBox(height: 16),
               if (videoSelected)
                 Text("Vídeo selecionado"),
-              
               if (!videoSelected)
                 Text("Aguarde até o vídeo ser carregado. Ele será exibido na tela logo após."),
-              
-              Text(""),
-              
+              SizedBox(height: 16),
               if (videoSelected)
                 ElevatedButton(
                   onPressed: () async {
                     if (videoUrl.isEmpty) {
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(SnackBar(content: Text('Nenhum arquivo selecionado')));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Text('Nenhum arquivo selecionado'),
+                        ),
+                      );
                       return;
                     }
 
@@ -127,15 +135,29 @@ class _sendVideoState extends State<sendVideo> {
                         'video': videoUrl,
                       };
 
-                      _reference.add(dataToSend);
+                      try {
+                        await _reference.add(dataToSend);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Colors.green,
+                            content: Text('Vídeo enviado com sucesso!'),
+                          ),
+                        );
+                        // Limpa os campos após o envio bem-sucedido
+                        _controllerName.clear();
+                        _controllerDescription.clear();
+                        setState(() {
+                          videoSelected = false;
+                        });
+                      } catch (error) {
+                        // Trate o erro adequadamente
+                        print(error);
+                      }
+                      Navigator.pop(context);
                     }
-                    Navigator.pop(context);
                   },
-                  
-                  child: Text('Enviar'),                  
+                  child: Text('Enviar'),
                 ),
-                
-                
             ],
           ),
         ),

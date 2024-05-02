@@ -5,14 +5,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-class sendPainting extends StatefulWidget {
-  const sendPainting({Key? key}) : super(key: key);
+class SendPainting extends StatefulWidget {
+  const SendPainting({Key? key}) : super(key: key);
 
   @override
-  State<sendPainting> createState() => _sendPaintingState();
+  State<SendPainting> createState() => _SendPaintingState();
 }
 
-class _sendPaintingState extends State<sendPainting> {
+class _SendPaintingState extends State<SendPainting> {
   TextEditingController _controllerName = TextEditingController();
   TextEditingController _controllerDescription = TextEditingController();
   GlobalKey<FormState> key = GlobalKey();
@@ -22,7 +22,7 @@ class _sendPaintingState extends State<sendPainting> {
 
   String imageUrl = '';
 
-  bool ImageSelected = false;
+  bool imageSelected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -39,129 +39,137 @@ class _sendPaintingState extends State<sendPainting> {
               children: [
                 TextFormField(
                   controller: _controllerName,
-                  decoration: InputDecoration(labelText: 'Nome da obra '),
+                  decoration: InputDecoration(
+                    hintText: "Insira o nome da obra",
+                    labelText: 'Nome'),
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return 'Insira um nome para a obra';
+                      return 'Nome obrigatório';
                     }
-        
                     return null;
                   },
                 ),
                 TextFormField(
                   controller: _controllerDescription,
-                  decoration: InputDecoration(labelText: 'Setor da Obra '),
+                  decoration:
+                      InputDecoration(
+                        hintText: "Insira o setor da obra",
+                        labelText: 'Setor'),
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return 'Insira um setor para a obra';
+                      return 'Setor obrigatório';
                     }
                     return null;
                   },
                 ),
                 Text(""),
                 ElevatedButton(
-                    onPressed: () async {
-        
-                      ImagePicker imagePicker = ImagePicker();
-                      XFile? file =
-                          await imagePicker.pickImage(source: ImageSource.gallery);
-                      print('${file?.path}');
-        
-                      String uniqueFileName =
-                          DateTime.now().millisecondsSinceEpoch.toString();
-        
-                      Reference referenceRoot = FirebaseStorage.instance.ref();
-                      Reference referenceDirImages =
-                          referenceRoot.child('images');
-        
-                      Reference referenceImageToUpload =
-                          referenceDirImages.child(uniqueFileName+".jpg");
-        
+                  onPressed: () async {
+                    ImagePicker imagePicker = ImagePicker();
+                    XFile? file =
+                        await imagePicker.pickImage(source: ImageSource.gallery);
+                    print('${file?.path}');
+
+                    if (file != null) {
                       try {
-        
-                        await referenceImageToUpload.putFile(File(file!.path));
-                        imageUrl = await referenceImageToUpload.getDownloadURL();
-        
-                        // Tem que esperar um pouquinho pra imagem carregar
-                        if (imageUrl.isEmpty == false) {
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(SnackBar(content: Text('Carregando arquivo, aguarde...')));
-                        setState(() {
-                        ImageSelected = true; 
-                      });
-        
-        
-                       }
-                       
+                        // String uniqueFileName =
+                            DateTime.now().millisecondsSinceEpoch.toString();
+
+                        Reference referenceRoot =
+                            FirebaseStorage.instance.ref();
+                        Reference referenceDirImages =
+                            referenceRoot.child('images');
+
+                        Reference referenceImageToUpload =
+                            referenceDirImages.child(_controllerName.text + ".jpg");
+
+                        await referenceImageToUpload.putFile(File(file.path));
+                        imageUrl =
+                            await referenceImageToUpload.getDownloadURL();
+
+                        if (imageUrl.isNotEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Carregando arquivo, aguarde...')));
+                          setState(() {
+                            imageSelected = true;
+                          });
+                        }
                       } catch (error) {
-                        
+                        print(error);
                       }
-                    },
-                    child: Text("Adicionar arquivo")),
-               
-                
+                    } else {
+                      // Exibir mensagem de erro aqui se necessário
+                    }
+                  },
+                  child: Text("Adicionar arquivo"),
+                ),
                 Text(""),
-                if (ImageSelected == true)  // Verifica se imageUrl não está vazia
-                
-                Column(
-                  children: [
-                    Text("Arquivo escolhido"),
-                    Text(""),
-                    SizedBox(
-                      height: 400,
-                      width: 400,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.network(
-                        imageUrl,
-                        fit: BoxFit.cover, // Ajuste conforme necessário
-                      
+                if (imageSelected)
+                  Column(
+                    children: [
+                      Text("Arquivo escolhido"),
+                      Text(""),
+                      SizedBox(
+                        height: 400,
+                        width: 400,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.network(
+                            imageUrl,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-        
-                if (ImageSelected == false)
-                Text("Aguarde até o arquivo ser carregado. Ele será exibido na tela logo após."),
-                
-                if (ImageSelected == true)
-                Text(""),
-                
-                if (ImageSelected == true)
-                ElevatedButton(
+                    ],
+                  ),
+                if (!imageSelected)
+                  Text("Aguarde até o arquivo ser carregado. Ele será exibido na tela logo após."),
+                if (imageSelected)
+                  Text(""),
+                if (imageSelected)
+                  ElevatedButton(
                     onPressed: () async {
                       if (imageUrl.isEmpty) {
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(SnackBar(
-                              backgroundColor: Colors.red,
-                              content: Text('Nenhum arquivo selecionado')));
-        
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            backgroundColor: Colors.red,
+                            content: Text('Nenhum arquivo selecionado')));
+
                         return;
                       }
-        
+
                       if (key.currentState!.validate()) {
                         String itemName = _controllerName.text;
-                        String itemDescription = _controllerDescription.text;
-        
-                        //Create a Map of data
+                        String itemSector = _controllerDescription.text;
+
                         Map<String, String> dataToSend = {
                           'name': itemName,
-                          'description': itemDescription,
+                          'sector': itemSector,
                           'image': imageUrl,
                         };
-        
-                        //Add a new item
-                        _reference.add(dataToSend);
+
+                        try {
+                          await _reference.add(dataToSend);
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text('Imagem enviada com sucesso!')));
+                          // Limpa os campos após o envio bem-sucedido
+                          _controllerName.clear();
+                          _controllerDescription.clear();
+                          setState(() {
+                            imageSelected = false;
+                          });
+                        } catch (error) {
+                          print(error);
+                        }
+                        Navigator.pop(context);
                       }
-                      Navigator.pop(context);
                     },
-                    child: Text('Enviar')),
+                    child: Text('Enviar'),
+                  ),
               ],
             ),
           ),
         ),
       ),
     );
-  }  
+  }
 }

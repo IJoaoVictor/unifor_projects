@@ -73,7 +73,7 @@ class ItemList extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => sendPainting()));
+              .push(MaterialPageRoute(builder: (context) => SendPainting()));
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),

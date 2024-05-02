@@ -39,7 +39,7 @@ class HomePage extends StatelessWidget {
         
           (
             onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const sendPainting()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const SendPainting()));
 
           }, 
           
