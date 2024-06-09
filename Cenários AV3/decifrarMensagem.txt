@@ -1,0 +1,69 @@
+A lógica por trás da função decifrar_mensagem
+
+Lógica Detalhada:
+    Inicialização de Variáveis:
+    
+      A função começa inicializando uma lista vazia para armazenar a mensagem decifrada.
+    
+    Repetição da Chave:
+    
+      A chave fornecida precisa ser repetida para cobrir toda a extensão da mensagem que será decifrada. 
+      Isso é feito para garantir que cada letra da mensagem tenha um caractere 
+      correspondente na chave para determinar o deslocamento apropriado.
+    
+    Iteração pela Mensagem Cifrada:
+    
+      A função itera sobre cada letra da mensagem cifrada.
+    
+    Determinação da Letra da Chave Correspondente:
+    
+      Para cada letra da mensagem cifrada, é determinada a letra correspondente na chave repetida.
+      Essa correspondência é feita pela posição relativa da letra na mensagem cifrada em relação à repetição da chave. 
+      
+      Por exemplo, a primeira letra da mensagem cifrada corresponde à primeira letra da chave repetida, 
+      a segunda letra da mensagem cifrada corresponde à segunda letra da chave repetida e assim por diante.
+    
+    Decifragem da Letra:
+    
+      Com a letra correspondente da chave determinada, é calculado o deslocamento necessário para decifrar a letra da mensagem cifrada.
+    
+      Isso é feito encontrando a posição da letra da chave no alfabeto e usando essa 
+      posição como índice para encontrar a letra original na tabela de Vigenère.
+    
+      A letra original é então adicionada à lista de mensagem decifrada.
+    
+    Preservação de Caracteres Não Alfabéticos:
+    
+      Se a letra da mensagem cifrada não estiver no alfabeto (por exemplo, caracteres de pontuação ou espaços), 
+      ela é mantida na mensagem decifrada sem modificação.
+    
+    Retorno da Mensagem Decifrada:
+    
+      Após iterar por todas as letras da mensagem cifrada, a lista de letras decifradas é concatenada em uma única string, 
+      que é então retornada como a mensagem decifrada completa.
+    
+    Exemplo Prático:
+      Suponha que temos a seguinte mensagem cifrada e a chave para decifragem:
+      
+      Mensagem Cifrada: "SEG"
+      Chave: "ABC"
+      A chave será repetida para cobrir toda a mensagem cifrada:
+      
+      Chave Repetida: "ABC"
+      Para cada letra da mensagem cifrada, determinamos a letra correspondente na chave repetida:
+      
+      S corresponde a A
+      E corresponde a B
+      G corresponde a C
+      Para cada letra da mensagem cifrada, determinamos o deslocamento necessário para decifrar a letra:
+      
+      S com deslocamento de A para encontrar a letra original correspondente na tabela de Vigenère.
+      E com deslocamento de B para encontrar a letra original correspondente na tabela de Vigenère.
+      G com deslocamento de C para encontrar a letra original correspondente na tabela de Vigenère.
+      A mensagem decifrada resultante seria a concatenação dessas letras decifradas.
+
+
+
+
+
+
