@@ -1,38 +1,48 @@
-Lógica de 'encontrar_chave', que é responsável por determinar a chave utilizada na cifragem de um texto, com base em um texto original e seu correspondente texto cifrado.
+Lógica de 'encontrar_chave', que é responsável por determinar a chave utilizada na cifragem de um texto,
+com base em um texto original e seu correspondente texto cifrado.
 
 Lógica Detalhada:
-Inicialização de Variáveis:
+  Inicialização de Variáveis:
+    A função começa inicializando duas listas vazias, uma para armazenar a chave e outra para armazenar os incrementos.
 
-A função começa inicializando duas listas vazias, uma para armazenar a chave e outra para armazenar os incrementos.
 Iteração pelos Textos:
+  A função itera sobre cada par de letras, uma do texto original e outra do texto cifrado, na mesma posição.
+  
+  Verificação de Letras no Alfabeto:
 
-A função itera sobre cada par de letras, uma do texto original e outra do texto cifrado, na mesma posição.
-Verificação de Letras no Alfabeto:
+    Para cada par de letras, verifica-se se ambas estão presentes no alfabeto. Isso é importante para garantir 
+    que apenas letras sejam consideradas na análise.
 
-Para cada par de letras, verifica-se se ambas estão presentes no alfabeto. Isso é importante para garantir que apenas letras sejam consideradas na análise.
-Cálculo do Incremento:
+  Cálculo do Incremento:
 
-Para cada par de letras no alfabeto, é calculado o incremento necessário para cifrar a letra original e obter a letra cifrada.
-O incremento é calculado como a diferença entre o índice da letra cifrada e o índice da letra original, módulo o tamanho do alfabeto. Isso garante que o incremento seja um valor válido dentro do alfabeto, independentemente do sentido da cifragem.
-Construção da Chave:
+  Para cada par de letras no alfabeto, é calculado o incremento necessário para cifrar a letra original e obter a letra cifrada.
 
-Para cada incremento calculado, é obtida a letra correspondente na posição do incremento no alfabeto. Essa letra é então adicionada à lista de chave.
-Essa etapa é importante porque cada letra da chave corresponde a um incremento específico necessário para cifrar a letra correspondente do texto original e produzir a letra cifrada.
-Armazenamento dos Incrementos:
+  O incremento é calculado como a diferença entre o índice da letra cifrada e o índice da letra original, módulo o tamanho do alfabeto. 
+  Isso garante que o incremento seja um valor válido dentro do alfabeto, independentemente do sentido da cifragem.
 
-Além de construir a chave, os incrementos também são armazenados em uma lista separada. Isso pode ser útil para análises posteriores ou para outros fins de processamento.
-Retorno da Chave e dos Incrementos:
+  Construção da Chave:
 
-No final da função, a chave é retornada como uma string, representando a sequência de letras que formam a chave utilizada na cifragem.
-Os incrementos também são retornados como uma lista, fornecendo informações sobre a quantidade de deslocamento necessário para cifrar cada letra do texto original e obter a letra correspondente no texto cifrado.
-Exemplo Prático:
-Suponha que temos o seguinte texto original e seu correspondente texto cifrado:
+  Para cada incremento calculado, é obtida a letra correspondente na posição do incremento no alfabeto. Essa letra é então adicionada à lista    de chave. Essa etapa é importante porque cada letra da chave corresponde a um incremento específico necessário para cifrar a letra         
+  correspondente do texto original e produzir a letra cifrada.
 
-Texto Original: "ABC"
-Texto Cifrado: "DEF"
-Para cada par de letras (A, D), (B, E) e (C, F), calculamos os incrementos necessários para cifrar a letra original e obter a letra cifrada:
+  Armazenamento dos Incrementos:
 
-(A, D): A cifragem de A para D requer um incremento de 3 no alfabeto.
-(B, E): A cifragem de B para E requer um incremento de 3 no alfabeto.
-(C, F): A cifragem de C para F requer um incremento de 3 no alfabeto.
-A chave correspondente seria então "DEF", que é a sequência de letras que, ao serem usadas como deslocamento, cifram o texto original "ABC" para produzir o texto cifrado "DEF".
+  Além de construir a chave, os incrementos também são armazenados em uma lista separada. 
+  Isso pode ser útil para análises posteriores ou para outros fins de processamento.
+
+  Retorno da Chave e dos Incrementos:
+
+  No final da função, a chave é retornada como uma string, representando a sequência de letras que formam a chave utilizada na cifragem.
+  Os incrementos também são retornados como uma lista, fornecendo informações sobre a quantidade de deslocamento necessário para cifrar cada     letra do texto original e obter a letra correspondente no texto cifrado.
+
+  Exemplo Prático:
+    Suponha que temos o seguinte texto original e seu correspondente texto cifrado:
+
+    Texto Original: "ABC"
+    Texto Cifrado: "DEF"
+    Para cada par de letras (A, D), (B, E) e (C, F), calculamos os incrementos necessários para cifrar a letra original e obter a letra cifrada:
+
+    (A, D): A cifragem de A para D requer um incremento de 3 no alfabeto.
+    (B, E): A cifragem de B para E requer um incremento de 3 no alfabeto.
+    (C, F): A cifragem de C para F requer um incremento de 3 no alfabeto.
+    A chave correspondente seria então "DEF", que é a sequência de letras que, ao serem usadas como deslocamento, cifram o texto original "ABC" para produzir o texto cifrado "DEF".
