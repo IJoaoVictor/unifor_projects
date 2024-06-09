@@ -69,3 +69,48 @@ utilizando o método de cifragem de Vigenère com uma chave fornecida.
         T com deslocamento de G para encontrar a letra cifrada correspondente na tabela de Vigenère.
         O com deslocamento de S para encontrar a letra cifrada correspondente na tabela de Vigenère.
         A mensagem cifrada resultante seria a concatenação dessas letras cifradas.
+
+
+Repetição Inteira da Chave:
+
+(chave * (len(mensagem) // len(chave))): Essa parte da expressão calcula quantas vezes a chave deve ser repetida inteiramente para cobrir o comprimento total da mensagem.
+
+len(mensagem): Retorna o comprimento da mensagem.
+
+len(chave): Retorna o comprimento da chave.
+
+len(mensagem) // len(chave): Calcula quantas vezes a chave cabe inteiramente na mensagem.
+
+chave * (len(mensagem) // len(chave)): Repete a chave a quantidade de vezes calculada.
+
+Adição da Parte Restante da Chave:
+
++ chave[:len(mensagem) % len(chave)]: Esta parte da expressão adiciona a parte restante da chave que não foi coberta pela repetição inteira.
+l
+en(mensagem) % len(chave): Calcula o resto da divisão do comprimento da mensagem pelo comprimento da chave. Isso indica quantos caracteres adicionais são necessários para completar a chave.
+
+chave[:len(mensagem) % len(chave)]: Retorna os primeiros caracteres da chave até o número calculado de caracteres adicionais.
+
+Concatenação das Partes:
+
+chave_repetida = (chave * (len(mensagem) // len(chave))) + chave[:len(mensagem) % len(chave)]: Por fim, as duas partes são concatenadas para formar a chave repetida.
+
+Exemplo Prático:
+Vamos usar um exemplo simples para demonstrar como essa expressão funciona:
+
+Mensagem: "ABCDE"
+Chave: "KEY"
+Repetição Inteira da Chave:
+
+(chave * (len(mensagem) // len(chave)))
+len(mensagem) // len(chave): 5 // 3 = 1 (a chave cabe completamente uma vez na mensagem)
+chave * (len(mensagem) // len(chave)): "KEY"
+Adição da Parte Restante da Chave:
+
++ chave[:len(mensagem) % len(chave)]
+len(mensagem) % len(chave): 5 % 3 = 2 (precisamos de mais 2 caracteres)
+chave[:len(mensagem) % len(chave)]: "KE"
+Concatenação das Partes:
+
+chave_repetida = "KEY" + "KE" = "KEYKE"
+Portanto, a chave repetida será "KEYKE", que tem o mesmo comprimento da mensagem "ABCDE".
