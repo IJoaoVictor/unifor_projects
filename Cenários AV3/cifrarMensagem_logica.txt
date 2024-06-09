@@ -1,0 +1,71 @@
+A lógica por trás da função cifrar_mensagem, que é responsável por cifrar uma mensagem 
+utilizando o método de cifragem de Vigenère com uma chave fornecida.
+
+    Lógica Detalhada:
+      Inicialização de Variáveis: 
+      A função começa inicializando uma lista vazia para armazenar a mensagem cifrada.
+    
+    Repetição da Chave:
+    
+      A chave fornecida precisa ser repetida para cobrir toda a extensão da mensagem que será cifrada. 
+      Isso é feito para garantir que cada letra da mensagem tenha um caractere correspondente na chave para determinar o deslocamento apropriado.
+    
+    Iteração pela Mensagem:
+    
+      A função itera sobre cada letra da mensagem original.
+    
+    Determinação da Letra da Chave Correspondente:
+    
+      Para cada letra da mensagem, é determinada a letra correspondente na chave repetida.
+      Essa correspondência é feita pela posição relativa da letra na mensagem em relação à repetição da chave. 
+      
+      Por exemplo, a primeira letra da mensagem corresponde à primeira letra da chave repetida, 
+      a segunda letra da mensagem corresponde à segunda letra da chave repetida e assim por diante.
+    
+    Cifragem da Letra:
+    
+      Com a letra correspondente da chave determinada, é calculado o deslocamento necessário para cifrar a letra da mensagem.
+    
+      Isso é feito encontrando a posição da letra da chave no alfabeto e usando essa posição
+      como índice para encontrar a letra cifrada na tabela de Vigenère.
+    
+      A letra cifrada é então adicionada à lista de mensagem cifrada.
+    
+    Preservação de Caracteres Não Alfabéticos:
+    
+      Se a letra da mensagem não estiver no alfabeto (por exemplo, caracteres de pontuação ou espaços), 
+      ela é mantida na mensagem cifrada sem modificação.
+      
+    Retorno da Mensagem Cifrada:
+    
+    Após iterar por todas as letras da mensagem original, a lista de letras cifradas é concatenada em uma única string, 
+    que é então retornada como a mensagem cifrada completa.
+    
+    Exemplo Prático:
+      Suponha que temos a seguinte mensagem original e uma chave para cifragem:
+    
+        Mensagem Original: "PROJETO"
+        Chave: "SEG"
+        A chave será repetida para cobrir toda a mensagem:
+        
+        Chave Repetida: "SEGSEGSE"
+        Para cada letra da mensagem original, determinamos a letra correspondente na chave repetida:
+        
+        P corresponde a S
+        R corresponde a E
+        O corresponde a G
+        J corresponde a S
+        E corresponde a E
+        T corresponde a G
+        O corresponde a S
+    
+        Para cada letra da mensagem original, determinamos o deslocamento necessário para cifrar a letra:
+        
+        P com deslocamento de S para encontrar a letra cifrada correspondente na tabela de Vigenère.
+        R com deslocamento de E para encontrar a letra cifrada correspondente na tabela de Vigenère.
+        O com deslocamento de G para encontrar a letra cifrada correspondente na tabela de Vigenère.
+        J com deslocamento de S para encontrar a letra cifrada correspondente na tabela de Vigenère.
+        E com deslocamento de E para encontrar a letra cifrada correspondente na tabela de Vigenère.
+        T com deslocamento de G para encontrar a letra cifrada correspondente na tabela de Vigenère.
+        O com deslocamento de S para encontrar a letra cifrada correspondente na tabela de Vigenère.
+        A mensagem cifrada resultante seria a concatenação dessas letras cifradas.
